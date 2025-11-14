@@ -1,15 +1,35 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const footerLinks = {
-    Company: ['About', 'Services', 'Work', 'Careers', 'Contact'],
-    Services: ['Branding', '3D Design', 'Web Development', 'Strategy', 'Consulting'],
-    Resources: ['Blog', 'Case Studies', 'Newsletter', 'Events', 'Press Kit'],
-    Legal: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'],
+    Company: [
+      { name: 'About', href: '/about' },
+      { name: 'Services', href: '/services' },
+      { name: 'Work', href: '/work' },
+      { name: 'Contact', href: '/contact' },
+    ],
+    Services: [
+      { name: 'Branding', href: '#' },
+      { name: '3D Design', href: '#' },
+      { name: 'Web Development', href: '#' },
+      { name: 'Strategy', href: '#' },
+    ],
+    Resources: [
+      { name: 'Blog', href: '#' },
+      { name: 'Case Studies', href: '#' },
+      { name: 'Newsletter', href: '#' },
+      { name: 'Events', href: '#' },
+    ],
+    Legal: [
+      { name: 'Privacy Policy', href: '#' },
+      { name: 'Terms of Service', href: '#' },
+      { name: 'Cookie Policy', href: '#' },
+    ],
   };
 
   return (
@@ -76,19 +96,20 @@ export default function Footer() {
               <ul className="space-y-3">
                 {links.map((link, linkIndex) => (
                   <motion.li
-                    key={link}
+                    key={link.name}
                     initial={{ opacity: 0, x: -10 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: categoryIndex * 0.1 + linkIndex * 0.05 }}
                   >
-                    <motion.a
-                      href="#"
-                      className="text-gray-400 hover:text-white transition-colors cursor-hover inline-block"
-                      whileHover={{ x: 5 }}
-                    >
-                      {link}
-                    </motion.a>
+                    <Link href={link.href}>
+                      <motion.div
+                        className="text-gray-400 hover:text-white transition-colors cursor-hover inline-block"
+                        whileHover={{ x: 5 }}
+                      >
+                        {link.name}
+                      </motion.div>
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
@@ -169,22 +190,6 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      {/* Floating Badge */}
-      <motion.div
-        className="absolute bottom-8 right-8 hidden lg:block"
-        animate={{
-          y: [0, -10, 0],
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-      >
-        <div className="w-24 h-24 border-2 border-white rounded-full flex items-center justify-center text-xs text-center p-4 glass-effect cursor-hover">
-          Scroll to Top
-        </div>
-      </motion.div>
     </footer>
   );
 }

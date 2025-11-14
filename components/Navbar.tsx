@@ -2,18 +2,21 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const menuItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'Work', href: '#work' },
-  { name: 'Services', href: '#services' },
-  { name: 'About', href: '#about' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Home', href: '/' },
+  { name: 'Services', href: '/services' },
+  { name: 'Work', href: '/work' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -36,37 +39,42 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
-          <motion.a
-            href="#home"
-            className="text-2xl md:text-3xl font-display font-bold tracking-tight cursor-hover"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            JAFF STUDIO
-          </motion.a>
+          <Link href="/">
+            <motion.div
+              className="text-2xl md:text-3xl font-display font-bold tracking-tight cursor-hover"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              JAFF STUDIO
+            </motion.div>
+          </Link>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
             {menuItems.map((item, index) => (
-              <motion.a
-                key={item.name}
-                href={item.href}
-                className="text-sm font-medium tracking-wide hover:text-gray-400 transition-colors cursor-hover"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                whileHover={{ y: -2 }}
-              >
-                {item.name}
-              </motion.a>
+              <Link key={item.name} href={item.href}>
+                <motion.div
+                  className={`text-sm font-medium tracking-wide hover:text-gray-400 transition-colors cursor-hover ${
+                    pathname === item.href ? 'text-white' : 'text-gray-400'
+                  }`}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -2 }}
+                >
+                  {item.name}
+                </motion.div>
+              </Link>
             ))}
-            <motion.button
-              className="px-6 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 cursor-hover"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Let's Talk
-            </motion.button>
+            <Link href="/contact">
+              <motion.button
+                className="px-6 py-2 border border-white hover:bg-white hover:text-black transition-all duration-300 cursor-hover"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Let's Talk
+              </motion.button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -102,29 +110,31 @@ export default function Navbar() {
           >
             <div className="flex flex-col items-center justify-center h-full gap-8">
               {menuItems.map((item, index) => (
-                <motion.a
-                  key={item.name}
-                  href={item.href}
-                  className="text-4xl font-display font-bold cursor-hover"
-                  initial={{ opacity: 0, x: 50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  onClick={() => setIsMenuOpen(false)}
-                  whileHover={{ x: 20 }}
-                >
-                  {item.name}
-                </motion.a>
+                <Link key={item.name} href={item.href} onClick={() => setIsMenuOpen(false)}>
+                  <motion.div
+                    className="text-4xl font-display font-bold cursor-hover"
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ x: 20 }}
+                  >
+                    {item.name}
+                  </motion.div>
+                </Link>
               ))}
-              <motion.button
-                className="mt-8 px-8 py-3 border-2 border-white hover:bg-white hover:text-black transition-all duration-300 text-xl cursor-hover"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.5 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Let's Talk
-              </motion.button>
+              <Link href="/contact">
+                <motion.button
+                  className="mt-8 px-8 py-3 border-2 border-white hover:bg-white hover:text-black transition-all duration-300 text-xl cursor-hover"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.5 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Let's Talk
+                </motion.button>
+              </Link>
             </div>
           </motion.div>
         )}

@@ -5,6 +5,9 @@ import CustomCursor from "@/components/CustomCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import LoadingScreen from "@/components/LoadingScreen";
 import ScrollProgress from "@/components/ScrollProgress";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,8 +45,12 @@ export default function RootLayout({
         <ScrollProgress />
         <div className="grain" />
         <CustomCursor />
+        <Navbar />
         <SmoothScroll>
-          {children}
+          <PageTransition>
+            {children}
+          </PageTransition>
+          <Footer />
         </SmoothScroll>
       </body>
     </html>
